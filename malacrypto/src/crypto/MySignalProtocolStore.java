@@ -141,6 +141,31 @@ public class MySignalProtocolStore implements SignalProtocolStore {
         return recoveredRecord;
     }
 
+    public PreKeyPublic loadRandomPreKey() {
+        Connection conn = GetSQLConnection.getConn();
+        PreKeyRecord record = null;
+        PreKeyPublic pubKey = null;
+
+        if (conn != null) {
+            try {
+                String sql = "SELECT preKeyRecord FROM preKeyStorage ORDER BY RAND() LIMIT 1";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                record = new PreKeyRecord(rs.getBytes("preKeyRecord"));
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (record != null) {
+                pubKey = new PreKeyPublic(record.getKeyPair().getPublicKey(), record.getId());
+            }
+        }
+
+        return pubKey;
+    }
+
     @Override
     public void storePreKey(int i, PreKeyRecord preKeyRecord) {
         Connection conn = GetSQLConnection.getConn();
@@ -337,7 +362,7 @@ public class MySignalProtocolStore implements SignalProtocolStore {
     }
 
     @Override
-    public SignedPreKeyRecord loadSignedPreKey(int i) throws InvalidKeyIdException {
+    public SignedPreKeyRecord loadSignedPreKey(int i) {
         Connection conn = GetSQLConnection.getConn();
         SignedPreKeyRecord pkr = null;
         if (conn != null) {
