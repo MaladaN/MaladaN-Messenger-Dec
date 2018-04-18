@@ -1,4 +1,4 @@
-package Store;
+package store;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
