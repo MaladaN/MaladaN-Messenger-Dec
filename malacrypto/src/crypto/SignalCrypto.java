@@ -1,11 +1,12 @@
 package crypto;
-import Store.InitStore;
+
 import org.whispersystems.libsignal.*;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.state.*;
 import org.whispersystems.libsignal.util.KeyHelper;
+import store.InitStore;
 
 import java.util.List;
 
@@ -151,11 +152,11 @@ public class SignalCrypto {
 
         }
 
-        // Store identityKeyPair somewhere durable and safe.
-        // Store registrationId somewhere durable and safe.
+        // store identityKeyPair somewhere durable and safe.
+        // store registrationId somewhere durable and safe.
 
-        // Store preKeys in PreKeyStore.
-        // Store signed preKey in SignedPreKeyStore.
+        // store preKeys in PreKeyStore.
+        // store signed preKey in SignedPreKeyStore.
     }
 
     private static void getSession(SignalProtocolAddress address, PreKeyBundle preKeyBundle) {

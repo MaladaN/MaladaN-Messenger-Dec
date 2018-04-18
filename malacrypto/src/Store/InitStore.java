@@ -1,4 +1,4 @@
-package Store;
+package store;
 
 import org.whispersystems.libsignal.IdentityKeyPair;
 
