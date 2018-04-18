@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/maladan/maladan-messenger-dec/badge)](https://www.codefactor.io/repository/github/maladan/maladan-messenger-dec)
 # MaladaN-Messenger-Dec
 MaladaN Messenger P2P
 
