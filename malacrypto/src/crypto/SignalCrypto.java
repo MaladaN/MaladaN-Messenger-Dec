@@ -133,7 +133,6 @@ public class SignalCrypto {
         //create data
         IdentityKeyPair identityKeyPair = KeyHelper.generateIdentityKeyPair();
         int registrationId = KeyHelper.generateRegistrationId(true);
-        List<PreKeyRecord> preKeys = KeyHelper.generatePreKeys(2, 1000);
         SignalProtocolStore signalProtocolStore = new MySignalProtocolStore();
 
         //store signed PreKey
@@ -147,16 +146,25 @@ public class SignalCrypto {
 
         //store required data as outlined in the documentation
         InitStore.storeIdentityKeyPairAndRegistrationId(identityKeyPair, registrationId);
-        for (PreKeyRecord ps : preKeys) {
-            signalProtocolStore.storePreKey(ps.getId(), ps);
-
-        }
+        generateMorePreKeys(signalProtocolStore, 1000);
 
         // store identityKeyPair somewhere durable and safe.
         // store registrationId somewhere durable and safe.
 
         // store preKeys in PreKeyStore.
         // store signed preKey in SignedPreKeyStore.
+    }
+
+    public static void generateMorePreKeys(int count) {
+        SignalProtocolStore store = new MySignalProtocolStore();
+        generateMorePreKeys(store, count);
+    }
+
+    private static void generateMorePreKeys(SignalProtocolStore store, int count) {
+        List<PreKeyRecord> preKeys = KeyHelper.generatePreKeys(2, count);
+        for (PreKeyRecord pkr : preKeys) {
+            store.storePreKey(pkr.getId(), pkr);
+        }
     }
 
     private static void getSession(SignalProtocolAddress address, PreKeyBundle preKeyBundle) {

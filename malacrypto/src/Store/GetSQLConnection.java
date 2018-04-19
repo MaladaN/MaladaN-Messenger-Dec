@@ -37,40 +37,40 @@ public class GetSQLConnection {
             Connection conn = DriverManager.
                     getConnection("jdbc:h2:./DB/M_DB", "Shinobu", "Oshino");
 
+            //keypairs, registration Ids, protocol addresses, and identity keys from messaged users
             String identityKeyStoreTable = "CREATE TABLE IF NOT EXISTS identityKeyStorage (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     " identityKeypair longblob, localRegistrationId int(10), signalProtocolAddress VARCHAR(64), identityKey longblob, PRIMARY KEY (id))";
             PreparedStatement ps = conn.prepareStatement(identityKeyStoreTable);
             ps.execute();
 
+            //local storage for our identity key pair, and registration id
             String localRegIdAndIdentity = "CREATE TABLE IF NOT EXISTS localIdentityStorage (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     " identityKeyPair longblob, localRegistrationId int(10), PRIMARY KEY (id))";
             ps = conn.prepareStatement(localRegIdAndIdentity);
             ps.execute();
 
+            //generated prekeys
             String preKeyStoreTable = "CREATE TABLE IF NOT EXISTS preKeyStorage (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     " preKeyRecord longblob, keyId int(10), PRIMARY KEY (id))";
             ps = conn.prepareStatement(preKeyStoreTable);
             ps.execute();
 
+            //user sessions
             String sessionStoreTable = "CREATE TABLE IF NOT EXISTS sessionStoreStorage (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     " protocolAddress VARCHAR(64), sessionRecord longblob, PRIMARY KEY (id))";
             ps = conn.prepareStatement(sessionStoreTable);
             ps.execute();
 
+            //signed prekeys
             String signedPreKeyTable = "CREATE TABLE IF NOT EXISTS signedPreKeyStore (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     " signedPreKeyRecord longblob, keyId int(10),  PRIMARY KEY (id))";
             ps = conn.prepareStatement(signedPreKeyTable);
             ps.execute();
 
+            //init flag to tell if the SignalCrypto init() method was called
             String installedFlag = "CREATE TABLE IF NOT EXISTS installedFlag (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
                     "flag int(10), PRIMARY KEY (id))";
             ps = conn.prepareStatement(installedFlag);
-            ps.execute();
-
-            //Local Username Storage
-            String username = "CREATE TABLE IF NOT EXISTS username (id int(10) unsigned NOT NULL AUTO_INCREMENT," +
-                    "user longblob, PRIMARY KEY (id))";
-            ps = conn.prepareStatement(username);
             ps.execute();
 
             return conn;

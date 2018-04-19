@@ -42,7 +42,7 @@ public class ReceiveMain implements Runnable {
 
             while (!session.isClosed()) {
                 try {
-                    new ReceiveThread(serverSocket.accept()).start();
+                    new ReceiveThread(serverSocket.accept(), userAddress).start();
                 } catch (Exception e) {
                     System.out.println("Timeout");
                 }
