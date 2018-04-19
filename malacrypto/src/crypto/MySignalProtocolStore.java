@@ -387,7 +387,7 @@ public class MySignalProtocolStore implements SignalProtocolStore {
         List<SignedPreKeyRecord> pkr = new ArrayList<>();
         if (conn != null) {
             try {
-                String sql = "SELECT signedPreKeyRecord FROM signedPreKeyStore";
+                String sql = "SELECT signedPreKeyRecord FROM signedPreKeyStore ORDER BY id DESC";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
