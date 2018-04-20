@@ -7,6 +7,7 @@ import crypto.SignalCrypto;
 import net.i2p.client.streaming.I2PSocket;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import receiving.receiveables.PreKeyBundleRequest;
+import sending.SendMain;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -44,6 +45,7 @@ public class ReceiveThread implements Runnable {
 
                 if (incomingObject instanceof ResponsePreKeyBundle) {
                     handleResponsePreKeyBundle((ResponsePreKeyBundle) incomingObject);
+
                 } else if (incomingObject instanceof PreKeyBundleRequest) {
                     handlePreKeyBundleRequest((PreKeyBundleRequest) incomingObject);
                 }
@@ -69,7 +71,7 @@ public class ReceiveThread implements Runnable {
     }
 
     //handle a user requesting a bundle so that they can send us a message.
-    private void handlePreKeyBundleRequest(PreKeyBundleRequest bundleRequest) throws IOException {
+    private void handlePreKeyBundleRequest(PreKeyBundleRequest bundleRequest) {
         this.theirAddress = bundleRequest.getBase64RequesterUsername();
 
         List<SignedPreKeyRecord> signedKeys = protocolStore.loadSignedPreKeys();
@@ -91,10 +93,9 @@ public class ReceiveThread implements Runnable {
 
         if (ourPubPreKey != null) {
             ResponsePreKeyBundle newBundle = new ResponsePreKeyBundle(registrationId, ourPubPreKey,
-                    signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey, ourAddress);
+                    signedPreKeyId, signedPreKeyPublic, signedPreKeySignature, identityKey, ourAddress, theirAddress);
 
-            objectsOut.writeObject(newBundle);
-            objectsOut.flush();
+            SendMain.addBundle(newBundle);
         }
     }
 
