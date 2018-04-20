@@ -13,9 +13,12 @@ public class ResponsePreKeyBundle implements java.io.Serializable {
     private byte[] signedPreKeySignature;
     private byte[] identityKey;
     private String base64Address;
+    private String theirBase64Address;
     //deviceId not present, only one device.
 
-    public ResponsePreKeyBundle(int registrationId, PreKeyPublic preKey, int signedPreKeyId, byte[] signedPreKeyPublic, byte[] signedPreKeySignature, byte[] identityKey, String ourBase64Address) {
+    public ResponsePreKeyBundle(int registrationId, PreKeyPublic preKey, int signedPreKeyId, byte[] signedPreKeyPublic,
+                                byte[] signedPreKeySignature, byte[] identityKey, String ourBase64Address,
+                                String theirBase64Address) {
         this.registrationId = registrationId;
         this.preKey = preKey;
         this.signedPreKeyId = signedPreKeyId;
@@ -23,6 +26,7 @@ public class ResponsePreKeyBundle implements java.io.Serializable {
         this.signedPreKeySignature = signedPreKeySignature;
         this.identityKey = identityKey;
         this.base64Address = ourBase64Address;
+        this.theirBase64Address = theirBase64Address;
     }
 
     public PreKeyBundle getPreKeyBundle() {
@@ -36,5 +40,9 @@ public class ResponsePreKeyBundle implements java.io.Serializable {
 
     public String getBase64Address() {
         return base64Address;
+    }
+
+    public String getReciepent() {
+        return theirBase64Address;
     }
 }

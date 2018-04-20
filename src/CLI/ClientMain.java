@@ -1,3 +1,5 @@
+package CLI;
+
 import crypto.SignalCrypto;
 import receiving.ReceiveMain;
 
@@ -7,7 +9,7 @@ public class ClientMain {
         //initialize signal identity
         SignalCrypto.initStore();
 
-        //open server-socket to receive messages
+        //open server-socket to receive connections.
         ReceiveMain receiveMain = new ReceiveMain();
         receiveMain.start();
     }
